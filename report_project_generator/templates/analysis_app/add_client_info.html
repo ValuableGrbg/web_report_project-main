@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Добавление информации о клиенте</h1>
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_clients' %}">Клиенты и оборудование</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Добавить информацию по клиенту</li>
+      </ol>
+    </nav>
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'add_client_info' %}" method="post">
+                {% include 'partials/_messages.html' %}
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="form-group mt-2">
+                                <label for="">Название организации-клиента</label>
+                                <input type="text" class="form-control-sm" name="client_name" value="{{ values.client_name }}">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Наименование подстанции</label>
+                                <input type="text" class="form-control-sm" name="substation_name" value="{{ values.substation_name }}">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="me-2" for="">Объект отбора</label>
+                                <select class="form-control-sm ms-5" name="equipment_type_full" id="equipment-type-full-box">
+                                    {% for equipment_part in equipments_parts %}
+                                        <option value="null" selected disabled hidden>Выберите</option>
+                                        <option name="equipment_type_full" value="{{ equipment_part.equipment_type_full }}">{{ equipment_part.equipment_type_full }}</option>
+                                    {% endfor %}
+                                </select>
+                             </div>
+                            <div class="form-group mt-2">
+                                <label class="me-2" for="">Класс напряжения, кВ</label>
+                                <select class="form-control-sm ms-5" name="voltage_class" id="voltage-class-box">
+                                    {% for voltage_class in voltage_classes %}
+                                        <option value="null" selected disabled hidden>Выберите</option>
+                                        <option name="voltage_class" value="{{ voltage_class }}">{{ voltage_class }}</option>
+                                    {% endfor %}
+                                </select>
+                             </div>
+                            <div class="form-group mt-2">
+                                <label class="me-2" for="">Мощность, МВа</label>
+                                <input type="number" class="form-control-sm" name="equipment_power" value="{{ values.equipment_power }}">
+                             </div>
+                            <div class="form-group mt-2">
+                                <label for="">Диспетчерское наименование оборудования</label>
+                                <input type="text" class="form-control-sm" name="equipment_name" value="{{ values.equipment_name }}">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Заводской номер</label>
+                                <input type="text" class="form-control-sm" name="equipment_serial_number" value="{{ values.equipment_serial_number }}">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Тип оборудования</label>
+                                <input type="text" class="form-control-sm" name="equipment_type" value="{{ values.equipment_type }}">
+                            </div>
+                            <div id="transformer-details-box">
+                                <div class="form-group mt-2">
+                                    <label class="me-2" for="">Тип защиты</label>
+                                    <select class="form-control-sm ms-5" name="def_type" id="def-type-box">
+                                        {% for def_type in def_types %}
+                                            <option value="null" selected disabled hidden>Выберите</option>
+                                            <option name="def_type" value="{{ def_type }}">{{ def_type }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group mt-2">
+                                    <label class="me-2" for="">Тип РПН</label>
+                                    <select class="form-control-sm ms-5" name="rpn_type" id="rpn-type-box">
+                                        {% for rpn_type in rpn_types %}
+                                            <option value="null" selected disabled hidden>Выберите</option>
+                                            <option name="rpn_type" value="{{ rpn_type }}">{{ rpn_type }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Год выпуска оборудования</label>
+                                <select class="form-control-sm ms-5" name="production_year">
+                                    {% for year in years %}
+                                        <option value="null" selected disabled hidden>Выберите</option>
+                                        <option name="production_year" value="{{ year }}">{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Год ввода в эксплуатацию</label>
+                                <select class="form-control-sm ms-5" name="setting_year">
+                                    {% for year in years %}
+                                        <option value="null" selected disabled hidden>Выберите</option>
+                                        <option name="setting_year" value="{{ year }}">{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Внести" class="btn btn-primary btn-primary-sm mt-5">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

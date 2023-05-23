@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="col-md-12 container">Изменение анализа {{ analysis.client }}</h1>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'analysis_app' %}">Анализы</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Изменить анализ</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'analysis_delete' analysis.id %}" class="btn btn-danger btn-sm">Удалить</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'analysis_edit' analysis.id %}" method="post">
+                {% include 'partials/_messages.html' %}
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="">Работник</label>
+                    <select class="form-control-sm" name="employee">
+                        <option selected name="employee" value="{{ values.employee.username }}">{{ values.employee.username }}</option>
+                        {% for employee in employees %}
+                            <option name="employee" value="{{ employee.username }}">{{ employee.username }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Заказчик - оборудование</label>
+                    <select class="form-control-sm" name="client">
+                        <option selected name="client" value="{{ values.client }}">{{ values.client }}</option>
+                        {% for client in clients %}
+                            <option name="client" value="{{ client }}">{{ client }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Хроматограф</label>
+                    <select class="form-control-sm" name="chromotograph">
+                        <option selected name="client" value="{{ values.chromotograph }}">{{ values.chromotograph }}</option>
+                        {% for chromotograph in chromotographs %}
+                            <option name="client" value="{{ chromotograph }}">{{ chromotograph }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Дата проведения анализа</label>
+                    <input type="date" class="form-control-sm" name="analysis_date">
+                </div>
+                <div class="form-group">
+                    <label for="">Заметки</label>
+                    <input type="text" class="form-control-sm" name="description" value="{{ values.description }}">
+                </div>
+                <div class="form-group">
+                    <label for="">H2 (Водород)</label>
+                    <input type="number" step="any" class="form-control-sm" name="H2" value="{{ values.H2 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">CH4 (Метан)</label>
+                    <input type="number" step="any" class="form-control-sm" name="CH4" value="{{ values.CH4 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">C2H4 (Этилен)</label>
+                    <input type="number" step="any" class="form-control-sm" name="C2H4" value="{{ values.C2H4 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">C2H6 (Этан)</label>
+                    <input type="number" step="any" class="form-control-sm" name="C2H6" value="{{ values.C2H6 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">C2H2 (Ацетилен)</label>
+                    <input type="number" step="any" class="form-control-sm" name="C2H2" value="{{ values.C2H2 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">CO2 (Диоксид углерода)</label>
+                    <input type="number" step="any" class="form-control-sm" name="CO2" value="{{ values.CO2 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">CO (Оксид углерода)</label>
+                    <input type="number" step="any" class="form-control-sm" name="CO" value="{{ values.CO }}">
+                </div>
+                <div class="form-group">
+                    <label for="">N2_O2 (ОГС)</label>
+                    <input type="number" step="any" class="form-control-sm" name="N2_O2" value="{{ values.N2_O2 }}">
+                </div>
+                <div class="form-group">
+                    <label for="">SRG (СРГ)</label>
+                    <input type="number" step="any" class="form-control-sm" name="SRG" value="{{ values.SRG }}">
+                </div>
+                <input type="submit" value="Обновить" class="btn btn-primary btn-primary-sm">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

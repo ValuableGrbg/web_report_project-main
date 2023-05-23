@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавление данных о клиенте</title>
+</head>
+<body>
+    <h2>Внесите данные о клиенте</h2>
+    <form method="post" action="/analysis_app/analysis_form/">
+        {% csrf_token %}
+        {{ client_equipment_form.as_p }}
+        <button type="submit">Внести данные в БД</button>
+    </form>
+</body>
+</html>

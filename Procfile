@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath report_project_generator report_project_generator.wsgi --log-file -

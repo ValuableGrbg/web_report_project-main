@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Добавление анализа</h1>
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'analysis_app' %}">Анализы</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Добавить анализ</li>
+      </ol>
+    </nav>
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'add_analysis_PH' %}" method="post">
+                {% include 'partials/_messages.html' %}
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm" style="width: 49%;">
+                        <div class="card mt-2" style="width: 100%;">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="">Работник</label>
+                                    <select class="form-control-sm" name="employee">
+                                        {% for employee in employees %}
+                                            <option name="employee" value="{{ employee.username }}">{{ employee.username }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% if probe_id %}
+                                     <div class="form-group" hidden>
+                                         <select class="form-control-sm" name="probe_id">
+                                             <option name="probe_id" value="{{ probe_details.id }}">{{ probe_details.id }}</option>
+                                         </select>
+                                     </div>
+                                {% else %}
+                                    <div class="card mt-2" id="probe-determination-PH" style="width: 100%;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="probe-id-box">Проба из отбора</h5>
+                                            <span id="probe-id-input-box"></span>
+                                            <div class="form-group">
+                                                <label for="">Дата отбора пробы</label>
+                                                <input type="date" class="form-control-sm" id="input-date-box">
+                                            </div>
+                                            <div class="form-group">
+                                               <label for="">№ бутылки с пробой</label>
+                                               <select class="form-control-sm" name="" id="select-bottle-number-box">
+                                                   <option name='hidden-option' selected disabled hidden>Выберите</option>
+                                               </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="form-group">
+                                    <label for="">Дата проведения анализа</label>
+                                    <input type="date" class="form-control-sm" name="analysis_date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Дата доставки пробы</label>
+                                    <input type="date" class="form-control-sm" name="delivery_date">
+                                </div>
+                                <div class="form-group">
+                                    <label>Шифр пробы</label>
+                                    <input type="text" class="form-control-sm" name="probe_code">
+                                </div>
+                                <div class="form-group">
+                                    <label>Заметки</label>
+                                    <input type="text" class="form-control-sm" name="description" value="{{ values.description }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Температура помещения, °C</label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="test_condition_temp" value="{{ values.test_condition_temp }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Влажность, %</label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="test_condition_humidity" value="{{ values.test_condition_humidity }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Давление, мм.рт.ст.</label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="test_condition_pressure" value="{{ values.test_condition_pressure }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-2" id="dynamic-fields-ph" style="width: 35rem;">
+                            <div class="card-body">
+								<div class="form-group">
+									<label> Цвет, ед.</label>
+                                    <input type="text" class="form-control-sm" name="color">
+								</div>
+								<div class="form-group">
+									<label>Прозрачность</label>
+                                    <input type="text" class="form-control-sm" name="transparency">
+								</div>
+								<div class="form-group">
+									<label>Пробивное напряжение, кВ, не менее/ коэф. вариации, %, не более </label>
+                                    <input type="text" class="form-control-sm" name="BV_CV">
+								</div>
+                                <div class="form-group">
+									<label>Кислотное число, мг КОН/г, не более</label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="acid_number">
+								</div>
+                                <div class="form-group">
+									<label>Температура вспышки в закрытом тигле, не ниже °С </label>
+                                    <input type="text" class="form-control-sm" name="flash_rate">
+								</div>
+								<div class="form-group">
+									<label>Влагосодержание, г/т, не более </label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="moisture">
+								</div>
+								<div class="form-group">
+									<label>Содержание мех. примесей (класс пром. чистоты), не более</label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="KPC">
+								</div>
+                                <div class="form-group">
+									<label>Тангенс угла диэлектрических потерь при 90°С, %, не более</label>
+                                    <input type="number"  step="0.01" class="form-control-sm" name="tan_d">
+								</div>
+								<div class="form-group">
+									<label>Содержание водорастворимых кислот и щелочей, рН водной вытяжки, не менее </label>
+                                    <input type="number" step="0.01" class="form-control-sm" name="ph">
+								</div>
+								<div class="form-group">
+									<label>Содержание антиокислительной присадки, % массы, не менее </label>
+                                    <input type="number" step="0.001" class="form-control-sm" name="ionol">
+								</div>
+                                <div class="form-group">
+									<label>Газосодержание, % объёма, не более </label>
+                                    <input type="number" step="0.001" class="form-control-sm" name="gas">
+								</div>
+								<div class="form-group">
+									<label>Содержание фурановых производных, % массы, не более </label>
+                                    <input type="number" step="0.00001" class="form-control-sm" name="furan">
+								</div>
+                                {%if probe_details.probe_issue == 'пленочная'%}
+                                <div class="form-group">
+									<label>Общее содержание шлама, % массы, не более </label>
+                                    <input type="number" step="0.001" class="form-control-sm" name="sludge">
+								</div>
+                                {%endif%}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm d-inline-flex p-2">
+                        {% if probe_id %}
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body"><h5 class="card-title">Информация по отбору от {{ probe_details.probe_date }}</h5>
+                                    <ul class="list-group" name="equipment_name">
+                                        <div class="info-wrapper">
+                                            <div class="info-wrapper-item">
+                                                <h6 class="mt-3">Организация-заказчик</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.client_name }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                                <h6 class="mt-2">Подстанция</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.substation_name }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                                <h6 class="mt-3">Диспетчерское наименование</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.equipment_name }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                                <h6 class="mt-2">Заводской номер</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.equipment_serial_number }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                                <h6 class="mt-2">Тип оборудования</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.equipment_type }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                                <h6 class="mt-2">Класс напряжения, кВ</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.voltage_class.voltage_class }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                               <h6 class="mt-2">Нагрузка во время отбора, % / ВА</h6>
+                                                <li class="list-group-item">{{ probe_details.load_value }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                               <h6 class="mt-2">Температура окружающей среды, °С</h6>
+                                                <li class="list-group-item">{{ probe_details.atm_temperature }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                               <h6 class="mt-2">Температура масла, °С</h6>
+                                                <li class="list-group-item">{{ probe_details.oil_temperature }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                               <h6 class="mt-2">Марка масла</h6>
+                                                <li class="list-group-item">{{ probe_details.oil_brand.oil_brand }}</li>
+                                            </div>
+                                            <div class="info-wrapper-item">
+                                               <h6 class="mt-2">Тип защиты</h6>
+                                                <li class="list-group-item">{{ probe_details.tested_client.def_type.def_type }}</li>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="card mt-5" style="width: 18rem;">
+                                <div class="card-body"><h5 class="card-title">Информация по отбору</h5>
+                                    <ul class="list-group" name="info-list">
+                                        <h6 class="mt-3">Организация-заказчик</h6>
+                                        <div id="analysis-client-name-box" name="li-insert" data-param="client~client_name"></div>
+                                        <h6 class="mt-2">Подстанция</h6>
+                                        <div id="analysis-substation-box" name="li-insert" data-param="client~substation_name"></div>
+                                        <h6 class="mt-3">Диспетчерское наименование</h6>
+                                        <div id="analysis-equip-name-box" name="li-insert" data-param="client~equipment_name"></div>
+                                        <h6 class="mt-2">Заводской номер</h6>
+                                        <div id="analysis-serial-number-box" name="li-insert" data-param="client~equipment_serial_number"></div>
+                                        <h6 class="mt-2">Тип оборудования</h6>
+                                        <div id="analysis-equipment-type-box" name="li-insert" data-param="client~equipment_type"></div>
+                                        <h6 class="mt-2">Класс напряжения, кВ</h6>
+                                        <div id="analysis-voltage-class-box" name="li-insert" data-param="voltage~voltage_class"></div>
+                                        <h6 class="mt-2">Нагрузка во время отбора, % / ВА</h6>
+                                        <div id="analysis-load-box" name="li-insert" data-param="probe~load_value"></div>
+                                        <h6 class="mt-2">Температура окружающей среды, °С</h6>
+                                        <div id="analysis-atm-temp-box" name="li-insert" data-param="probe~atm_temperature"></div>
+                                        <h6 class="mt-2">Температура масла, °С</h6>
+                                        <div id="analysis-oil-temp-box" name="li-insert" data-param="probe~oil_temperature"></div>
+                                        <h6 class="mt-2">Марка масла</h6>
+                                        <div id="analysis-oil-brand-box" name="li-insert" data-param="oil~oil_brand"></div>
+                                        <h6 class="mt-2">Тип защиты</h6>
+                                        <div id="analysis-def-type-box" name="li-insert" data-param="def~def_type"></div>
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <input type="submit" value="Внести" class="btn btn-primary btn-primary-sm mt-2">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

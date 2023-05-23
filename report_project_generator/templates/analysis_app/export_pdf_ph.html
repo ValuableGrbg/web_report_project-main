@@ -1,0 +1,604 @@
+
+<html>
+<head>
+	<title>Oil Report</title>
+	<meta name="description" content="Oil Report" />
+
+</head>
+<body>
+	<header class="header_wrapper">
+		<div class="logo_container">
+			<img class="logo" src="data:;base64,{{logo}}" alt="{{ logo }}" />
+		</div>
+		<div class="comp_descr">
+			ООО "Сибэнергодиагностика"
+			<br/>{{ company_info.address }}
+			<br/>ИНН: {{ company_info.inn }} КПП: {{ company_info.kpp }}
+			<br/>🗏 {{ company_info.site_url }}
+			<br/>✉ {{ company_info.email }} ☎ {{ company_info.telephone }}
+		</div>
+	</header>
+	<section>
+		<div class="protocol_name">
+			<h2 class="title">Протокол № {{ analysis.protocol_code }}</h2>
+			<h2 class="descr">
+				физико-химических испытаний трансформаторного масла
+			</h2>
+		</div>
+	</section>
+	<section class="wrapper">
+		<h2>
+			1. Характеристика объекта испытаний
+		</h2>
+		<div class="characteristics">
+			<div>
+				<table class="description1">
+					<tbody>
+						<tr>
+							<td class="left_td">Наименование предприятия</td>
+							<td class="right_td">{{ analysis.client.client_name }}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Место установки</td>
+							<td class="right_td">{{ analysis.client.substation_name }}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Диспетчерское наименование</td>
+							<td class="right_td">{{ analysis.client.equipment_name }}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Место отбора</td>
+							<td class="right_td">{{ probe_details_info.testing_part }}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Тип оборудования</td>
+							<td class="right_td">{{ analysis.client.equipment_type }}</td>
+						</tr>
+						<tr class="last_row">
+							<td class="left_td">Заводской номер</td>
+							<td class="right_td">{{ analysis.client.equipment_serial_number }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div>
+				<table class="description2">
+					<tbody>
+						<tr>
+							<td class="left_td">Тип защиты</td>
+							<td class="right_td">{{analysis.client.def_type.def_type}}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Класс напряжения</td>
+							<td class="right_td">{{analysis.client.voltage_class.voltage_class}}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Марка масла</td>
+							<td class="right_td">{{probe_details_info.oil_brand.oil_brand}}</td>
+						</tr>
+						<tr>
+							<td class="left_td">Год выпуска</td>
+							{% if analysis.client.production_year != None %}
+								<td class="right_td">{{ analysis.client.production_year }}</td>
+							{% else %}
+								<td class="right_td">-</td>
+							{% endif %}
+						</tr>
+						<tr class="last_row">
+							<td class="left_td">Год ввода в эксплуатацию</td>
+							{% if analysis.client.setting_year != None %}
+								<td class="right_td">{{ analysis.client.setting_year }}</td>
+							{% else %}
+								<td class="right_td">-</td>
+							{% endif %}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section>
+	<section class="wrapper">
+		<div class="conditions">
+			<h2>
+				2. Условия отбора пробы
+			</h2>
+			<table class="">
+				<tbody>
+					<tr>
+						<td class="">Причина отбора</td>
+						<td class="adjust_align">{{ probe_details_info.probe_issue }}</td>
+						<td class="">Температура окр. среды, &#176C</td>
+						<td class="adjust_align">{{ probe_details_info.atm_temperature }}</td>
+						<td class="">Температура масла пробы, &#176C</td>
+						<td class="adjust_align">{{ probe_details_info.oil_temperature }}</td>
+					</tr>
+					<tr>
+						<td class="">Дата отбора</td>
+						<td class="adjust_align">{{ probe_details_info.probe_date.strftime('%d.%m.%Y') }}</td>
+						<td class="">Дата доставки пробы в лабораторию</td>
+						<td class="adjust_align">{{ analysis.delivery_date.strftime('%d.%m.%Y') }}</td>
+						<td class="">Дата выполнения испытаний</td>
+						<td class="adjust_align">{{ analysis.analysis_date.strftime('%d.%m.%Y') }}</td>
+					</tr>
+					<tr>
+						<td class="">Шифр пробы</td>
+						<td class="adjust_align">{{ analysis.probe_code }}</td>
+						<td colspan="2" class="">Условия проведения испытаний:<br> темп., &#176C/ влажность, % / давл., мм.рт.ст.</td>
+						<td colspan="2" class="adjust_align">
+							{{ [analysis.test_condition_temp, analysis.test_condition_humidity, analysis.test_condition_pressure]|join(' / ') }}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<h3>НД: ГОСТ Р МЭК 60475-2013</h3>
+		</div>
+
+	</section>
+	<section class="wrapper">
+		<div class="conditions">
+			<h2>
+				3. Испытательное оборудование и средства измерений
+			</h2>
+			<table class="equipment_conditions">
+				<tbody>
+					<tr>
+						<td class="number_cell">№ п/п</td>
+						<td class="">Наименование оборудования</td>
+						<td class="">Тип</td>
+						<td class="">Заводской номер</td>
+						<td class="">Погрешность измерений</td>
+						<td class="">Свидетельство о поверке</td>
+						<td class="">Дата следующей поверки</td>
+					</tr>
+					<tr>
+						<td class="">1</td>
+						<td class="">Титратор Mettler Toledo</td>
+						<td class="">DL-32</td>
+						<td class="">5127071425</td>
+						<td class="">Предел допускаемого относительного СКО титрования 1,0%;
+							приведенная погрешность ±3,0% </td>
+						<td class="">С-НН/ 20-12-2021/ 118741174</td>
+						<td class="">20.12.2022</td>
+					</tr>
+					<tr>
+						<td class="">2</td>
+						<td class="">Аппарат для определения
+										электрической прочности
+									жидких диэлектриков</td>
+						<td class="">СКАТ-М100</td>
+						<td class="">2126</td>
+						<td class="">Предел допустимой приведённой
+									основной погрешности измерения
+									напряжения ±2,5% </td>
+						<td class="">С-НН/16-12-2021/ 118337322</td>
+						<td class="">16.12.2022</td>
+					</tr>
+					<tr>
+						<td class="">3</td>
+						<td class="">Установка для контроля качества трансформаторного
+							масла</td>
+						<td class="">АСТ-2М</td>
+						<td class="">051</td>
+						<td class="">Абсолютная погрешность
+									±0,02* (1,0+tgδ) </td>
+						<td class="">№ С-Н/04-04-2022/146188026</td>
+						<td class="">04.04.2023</td>
+					</tr>
+					<tr>
+						<td class="">4</td>
+						<td class="">Анализатор загрязнения жидкостей </td>
+						<td class="">АЗЖ-975.0</td>
+						<td class="">1104</td>
+						<td class="">±10%; для размерной группы от 100 до 200 мкм - ±20%</td>
+						<td class="">С-З/07-04-2022/148063034 </td>
+						<td class="">06.04.2023</td>
+					</tr>
+					<tr>
+						<td class="">5</td>
+						<td class="">Анализатор лабораторный (рН-метр) </td>
+						<td class="">АНИОН 4100</td>
+						<td class="">294</td>
+						<td class="">Пределы допускаемой основной
+									абсолютной погрешности измерения
+									рН, ед.рН - ±0,02</td>
+						<td class="">С-НН/09-12-2021/116506690 </td>
+						<td class="">09.12.2022</td>
+					</tr>
+					<tr>
+						<td class="">6</td>
+						<td class="">Компаратор для определения цвета </td>
+						<td class="">Компаратор серии 3000 AF650</td>
+						<td class="">17602</td>
+						<td class="">Визуальное определение цвета</td>
+						<td class=""> - </td>
+						<td class=""> - </td>
+					</tr>
+					<tr>
+						<td class="">7</td>
+						<td class="">Хроматографический комплекс </td>
+						<td class="">Кристалл 2000М </td>
+						<td class="">721621</td>
+						<td class="">Предел допускаемого значения
+									относитель-ного СКО выходного
+									сигнала не более2%,
+									Предел допускаемого значения
+									изменения выходного сигнала
+									±5%</td>
+						<td class="">С-НН/20-12-2021/118741172  </td>
+						<td class="">19.12.2022</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+	<section class="wrapper">
+		<p style="page-break-before: always"></p>
+
+		<header class="header_wrapper">
+		<div class="logo_container">
+			<img class="logo" src="data:;base64,{{logo}}" alt="{{ logo }}" />
+		</div>
+		<div class="comp_descr">
+			ООО "Сибэнергодиагностика"
+			<br/>{{ company_info.address }}
+			<br/>ИНН: {{ company_info.inn }} КПП: {{ company_info.kpp }}
+			<br/>🗏 {{ company_info.site_url }}
+			<br/>✉ {{ company_info.email }} ☎ {{ company_info.telephone }}
+		</div>
+		</header>
+
+		<div class="conditions">
+			<h2>
+				4. Результаты испытаний
+			</h2>
+			<table class="equipment_conditions"><!--!TODO проверить класс-->
+				<tbody>
+					<tr>
+						<td rowspan="2" class="">№ п/п</td>
+						<td rowspan="2" class="">Наименование показателя масла, единицы измерения </td>
+						<td colspan="2">Предельно допустимое значение показателя качества масла*</td>
+						<td rowspan="2" class="">Результат испытания</td>
+					</tr>
+					<tr>
+						{% if probe_details_info.probe_issue == "Плановый" %}
+						<td class="">ограничивающее область нормального состояния </td>
+						<td class="">предельно допустимое</td>
+						{% else %}
+						<td class="">предназначенного к заливке в электрооборудование</td>
+						<td class="">после заливки в электрооборудование</td>
+						{% endif %}
+					</tr>
+					{% set a = 0 %}<!-- a is counter -->
+					{%if analysis.color_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Цвет, ед</td>
+
+						{% if limits.color_limit_value_ons != None %}
+							<td>{{limits.color_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{% if limits.color_limit_value_pd != None %}
+							<td>{{limits.color_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.color_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.transparency_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Прозрачность</td>
+
+						{% if limits.transparency_limit_value_ons != None %}
+						<td>{{limits.transparency_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{% if limits.transparency_limit_value_pd != None %}
+						<td>{{limits.transparency_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.transparency_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.BV_CV_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Пробивное напряжение, кВ, не менее/коэф. вариации, %, не более </td>
+
+						{% if limits.BV_CV_limit_value_ons != None %}
+						<td>{{limits.BV_CV_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{% if limits.BV_CV_limit_value_pd != None %}
+						<td>{{limits.BV_CV_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.BV_CV_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.acid_number_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Кислотное число, мг КОН/г, не более</td>
+
+						{% if limits.acid_number_value_ons != None %}
+						<td>{{limits.acid_number_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{% if limits.acid_number_value_pd != None %}
+						<td>{{limits.acid_number_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.acid_number_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.flash_rate_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Температура вспышки в закрытом тигле, не ниже °С</td>
+
+						{%if limits.flash_rate_limit_value_ons != None%}
+						<td>{{limits.flash_rate_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.flash_rate_limit_value_pd != None%}
+						<td>{{limits.flash_rate_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.flash_rate_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.moisture_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Влагосодержание, г/т, не более</td>
+
+						{%if limits.moisture_limit_value_ons != None%}
+						<td>{{limits.moisture_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.moisture_limit_value_pd != None%}
+						<td>{{limits.moisture_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.moisture_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.KPC_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Содержание мех. примесей (класс пром. чистоты), не более</td>
+
+						{%if limits.KPC_limit_value_ons != None%}
+						<td>{{limits.KPC_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.KPC_limit_value_pd != None%}
+						<td>{{limits.KPC_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.KPC_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.tan_d_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Тангенс угла диэлектрических потерь при 90°С, %, не более</td>
+
+						{%if limits.tan_d_limit_value_ons != None%}
+						<td>{{limits.tan_d_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.tan_d_limit_value_pd != None%}
+						<td>{{limits.tan_d_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.tan_d_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.ph_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Содержание водорастворимых кислот и щелочей, рН водной вытяжки, не менее</td>
+
+						{%if limits.ph_limit_value_ons != None%}
+						<td>{{limits.ph_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.ph_limit_value_pd != None%}
+						<td>{{limits.ph_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.ph_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.ionol_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Содержание антиокислительной присадки, % массы, не менее</td>
+
+						{%if limits.ionol_limit_value_ons != None%}
+						<td>{{limits.ionol_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.ionol_limit_value_pd != None%}
+						<td>{{limits.ionol_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.ionol_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.gas_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>цвет</td>
+
+						{%if limits.gas_limit_value_ons != None%}
+						<td>{{limits.gas_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.gas_limit_value_pd != None%}
+						<td>{{limits.gas_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.gas_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.furan_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>Содержание фурановых производных, % массы, не более </td>
+
+						{%if limits.furan_limit_value_ons != None%}
+						<td>{{limits.furan_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.furan_limit_value_pd != None%}
+						<td>{{limits.furan_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.furan_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.sludge_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>цвет</td>
+
+						{%if limits.sludge_limit_value_ons != None%}
+						<td>{{limits.sludge_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.sludge_limit_value_pd != None%}
+						<td>{{limits.sludge_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.sludge_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.solidification_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>цвет</td>
+
+						{%if limits.solidification_limit_value_ons != None%}
+						<td>{{limits.solidification_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.solidification_limit_value_pd != None%}
+						<td>{{limits.solidification_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.solidification_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.oxidation_stability_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>цвет</td>
+
+						{%if limits.oxidation_limit_value_ons != None%}
+						<td>{{limits.oxidation_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.oxidation_limit_value_pd != None%}
+						<td>{{limits.oxidation_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.oxidation_stability_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.sulfur_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>цвет</td>
+
+						{%if limits.sulfur_limit_value_ons != None%}
+						<td>{{limits.sulfur_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.sulfur_limit_value_pd != None%}
+						<td>{{limits.sulfur_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.sulfur_value}}</td>
+					</tr>
+					{% endif %}
+					{%if analysis.corrosive_sulfur_value != None%}
+					{% set a = a+1%}
+					<tr>
+						<td>{{a}}</td>
+						<td>содержание коррозийной серы</td>
+
+						{%if limits.corrosive_sulfur_limit_value_ons != None%}
+						<td>{{limits.corrosive_sulfur_limit_value_ons}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						{%if limits.corrosive_sulfur_limit_value_pd != None%}
+						<td>{{limits.corrosive_sulfur_limit_value_pd}}</td>
+						{% else %} <td>-</td> {%endif%}
+
+						<td>{{analysis.corrosive_sulfur_value}}</td>
+					</tr>
+					{% endif %}
+
+				</tbody>
+			</table>
+				<h3>* - СТО 34.01-23.1-001-2017</h3>
+		</div>
+	</section>
+	<section class="wrapper">
+		<div class="conclusion">
+			<h2>5. Заключение</h2>
+			<!--TODO Добавить заключение-->
+
+			{% if mismatches == []%}
+				<p>Результаты испытаний соответствуют требованиям СТО 34.01-23.1-001-2017</p>
+			{% else %}
+				<p>Результаты испытаний не соответствуют требованиям СТО 34.01-23.1-001-2017</p>
+			{% endif %}
+
+		</div>
+	</section>
+	<section class="wrapper">
+		<div class="certificate">
+			<h2>6. Свидетельство об аттестации испытательной лаборатории</h2>
+				№ 2022-1г от 31.03.20222, выдано ПАО ФСК ЕЭС (РОССЕТИ)
+			<table class="sign_form">
+				<tbody>
+					<tr>
+						<td class="">Протокол проверил</td>
+						<td class="">Должность</td>
+						<td class="">Подпись</td>
+					</tr>
+					<tr>
+						<td class="">Самарцева И.А.</td>
+						<td class="">Генеральный директор</td>
+						<td class=""></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+	<footer>
+		<p>№ {{ analysis.protocol_code }}</p>
+	</footer>
+</body>
+</html>

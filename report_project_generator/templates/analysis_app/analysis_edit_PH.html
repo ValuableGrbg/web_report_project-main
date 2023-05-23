@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="col-md-12 container">Изменение анализа {{ analysis.client }}</h1>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index_PH' %}">Анализы</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Изменить анализ</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'analysis_delete_PH' analysis.id %}" class="btn btn-danger btn-sm">Удалить</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'analysis_edit_PH' analysis.id %}" method="post">
+                {% include 'partials/_messages.html' %}
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label> Цвет, ед.</label>
+                    <input type="text" class="form-control-sm" name="color">
+                </div>
+                <div class="form-group">
+                    <label>Прозрачность</label>
+                    <input type="text" class="form-control-sm" name="transparency">
+                </div>
+                <div class="form-group">
+                    <label>Пробивное напряжение, кВ, не менее/ коэф. вариации, %, не более </label>
+                    <input type="text" class="form-control-sm" name="BV_CV">
+                </div>
+                <div class="form-group">
+                    <label>Кислотное число, мг КОН/г, не более</label>
+                    <input type="number" step="0.01" class="form-control-sm" name="acid_number">
+                </div>
+                <div class="form-group">
+                    <label>Температура вспышки в закрытом тигле, не ниже °С </label>
+                    <input type="text" class="form-control-sm" name="flash_rate">
+                </div>
+                <div class="form-group">
+                    <label>Влагосодержание, г/т, не более </label>
+                    <input type="number" step="0.01" class="form-control-sm" name="moisture">
+                </div>
+                <div class="form-group">
+                    <label>Содержание мех. примесей (класс пром. чистоты), не более</label>
+                    <input type="number" step="0.01" class="form-control-sm" name="KPC">
+                </div>
+                <div class="form-group">
+                    <label>Тангенс угла диэлектрических потерь при 90°С, %, не более</label>
+                    <input type="number"  step="0.01" class="form-control-sm" name="tan_d">
+                </div>
+                <div class="form-group">
+                    <label>Содержание водорастворимых кислот и щелочей, рН водной вытяжки, не менее </label>
+                    <input type="number" step="0.01" class="form-control-sm" name="ph">
+                </div>
+                <div class="form-group">
+                    <label>Содержание антиокислительной присадки, % массы, не менее </label>
+                    <input type="number" step="0.001" class="form-control-sm" name="ionol">
+                </div>
+                <div class="form-group">
+                    <label>Общее содержание шлама, % массы, не более </label>
+                    <input type="number" step="0.001" class="form-control-sm" name="sludge">
+                </div>
+                <div class="form-group">
+                    <label>Газосодержание, % объёма, не более </label>
+                    <input type="number" step="0.001" class="form-control-sm" name="sludge">
+                </div>
+                <div class="form-group">
+                    <label>Содержание фурановых производных, % массы, не более </label>
+                    <input type="number" step="0.01" class="form-control-sm" name="furan">
+                </div>
+                <input type="submit" value="Обновить" class="btn btn-primary btn-primary-sm">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

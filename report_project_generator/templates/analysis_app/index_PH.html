@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container mt-4">
+    {% include 'partials/_messages.html' %}
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Анализы</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Мои анализы</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'add_analysis_PH' %}" class="btn btn-primary btn-sm float-end">Добавить анализ</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th>Дата проведения анализа</th>
+                <th>Заказчик - оборудование</th>
+                <th>Работник</th>
+                <th>Заметки</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for analysis_info in page_object %}
+               <tr>
+                   <td>{{ analysis_info.analysis_date }}</td>
+                   <td>{{ analysis_info.client }}</td>
+                   <td>{{ analysis_info.employee }}</td>
+                   <td>{{ analysis_info.description }}</td>
+                   <td><a href="{% url 'analysis_edit_PH' analysis_info.id %}" class="btn btn-secondary btn-sm">Изменить</a></td>
+                   <td><a href="{% url 'export_pdf_ph' analysis_info.id %}" class="btn btn-info btn-sm">Создать PDF</a></td>
+               </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    <div class="">
+        Страница {{ page_object.number }} из {{ page_object.paginator.num_pages }}
+    </div>
+    <ul class="pagination text-start float-end">
+        {% if page_object.has_previous %}
+            <li {% if page_object.number == 1 %} class="page-item active" {% endif %}>
+                <a class="page-link" href="?page=1">&laquo; 1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.previous_page_number }}">Предыдущая</a>
+            </li>
+        {% endif %}
+        {% if page_object.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.next_page_number }}">Следующая</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.paginator.num_pages }}">{{ page_object.paginator.num_pages }} &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+
+
+
+
+<!--{% include 'partials/_messages.html' %}-->
+
+
+{% endblock %}

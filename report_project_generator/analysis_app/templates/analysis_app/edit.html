@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование</title>
+</head>
+<body>
+    <h2>Редактирование</h2>
+    <form method="post" action="/analysis_app/{{ client_id }}/edit/">
+        {% csrf_token %}
+        {{ client_equipment_form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+</body>
+</html>

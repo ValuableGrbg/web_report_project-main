@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Список элементов приложения</h1>
+    {% if total_dict %}
+        <ul>
+            {% for model, template in total_dict.items %}
+                <li>
+                    <a href="/analysis_app/{{ template }}">{{ model }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Элементов нет.</p>
+    {% endif %}
+</body>
+</html>

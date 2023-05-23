@@ -1,0 +1,61 @@
+{% extends 'base_auth.html' %}
+{% load static %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="card mt-5">
+            <div class="card-body">
+                <div class="card-title py-2">
+                    <h4>Регистрация</h4>
+                 </div>
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/_messages.html' %}
+                    <div class="form-group py-1">
+                        <input
+                                type="text"
+                                name="username"
+                                placeholder="Имя пользователя"
+                                id="usernameField"
+                                class="form-control form-control-sm"
+                                value="{{ fieldValues.username }}"
+                        />
+                    </div>
+                    <div class="invalid-feedback" style="display: none"></div>
+                    <div class="text-sm text-success usernameSuccessOutput"></div>
+
+                    <div class="form-group py-1">
+                        <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                id="emailField"
+                                class="form-control form-control-sm"
+                                value="{{ fieldValues.email }}"
+                        />
+                    </div>
+                    <div class="invalid-email invalid-feedback" style="display: none"></div>
+                    <div class="text-sm text-success emailSuccessOutput"></div>
+
+                    <div class="form-group py-1">
+                        <input type="password" name="password" placeholder="Пароль" id="passwordField" class="form-control form-control-sm" />
+                        <div class="py-2 form-check float-right">
+                            <input type="checkbox" class="showPasswordToggle" />
+                            <small class="showPasswordToggle">Показать пароль</small>
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <input type="submit" value="Зарегистрироваться" class="btn btn-block btn-primary submit-btn" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+<script src="{% static 'js/register.js' %}"></script>
+
+{% endblock %}

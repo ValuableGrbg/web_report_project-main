@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Добавление информации об отборе</h1>
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'index_engineer' %}">Отборы</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Добавить отбор</li>
+      </ol>
+    </nav>
+    <div class="card">
+        <div class="card-body">
+            <form action="{% url 'add_oil_extraction' %}" method="post">
+                {% include 'partials/_messages.html' %}
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group mt-2">
+                                        <label class="me-2" for="">Работник</label>
+                                        <select class="form-control-sm ms-5" name="employee">
+                                            {% for employee in employees %}
+                                                <option name="employee" value="{{ employee.username }}">{{ employee.username }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="choice-influence-elements">
+                                        <div class="form-group mt-2" id="clients">
+                                            <label class="me-2" for="">Заказчик</label>
+                                            <select class="form-control-sm ms-5" name="client" id="clients-data-box">
+                                                <option value="null" selected disabled hidden>Выберите</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group mt-2" id="equipment_serial_numbers">
+                                            <label for="">Заводской номер</label>
+                                            <select class="form-control-sm" name="equipment_serial_number" id="serial-number-box">
+                                                 <option name='hidden-option' selected disabled hidden>Выберите</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <a href="{% url 'add_client_info' %}" class="btn btn-secondary btn-sm">Добавить клиента</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-3" id="probe_date_div">
+                                <label for="">Дата</label>
+                                <input type="date" class="form-control-sm" name="probe_date" value="{{ values.probe_date }}">
+                            </div>
+                            <div class="form-group mt-3" id="probe_issue_div">
+                                <label for="">Вид испытания</label>
+                                <select class="form-control-sm ms-5" name="test_type" id="test-type-data-box">
+                                    <option value="null" selected disabled hidden>Выберите</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-3">
+                                <label for="">Нормативный документ</label>
+                                <select class="form-control-sm ms-5" name="normative_doc" id="normative-doc-box">
+                                    <option value="null" selected disabled hidden>Выберите</option>
+                                </select>
+                            </div>
+                            <div class="form-group mt-2" id="oil-container-box">
+
+                            </div>
+                            <div class="form-group mt-2" id="atm_temperature_div">
+                                <label for="">Температура окружающей среды</label>
+                                <input type="text" class="form-control-sm" name="atm_temperature" value="{{ values.atm_temperature }}">
+                            </div>
+                            <div class="form-group mt-2" id="oil_temperature_div">
+                                <label for="">Температура масла</label>
+                                <input type="text" class="form-control-sm" name="oil_temperature" value="{{ values.oil_temperature }}">
+                            </div>
+                            <div class="form-group mt-2" id="oil_brand_div">
+                                <label class="me-2" for="">Марка масла</label>
+                                <select class="form-control-sm ms-5" name="oil_brand">
+                                    {% for brand in oil_brand_info %}
+                                        <option value="null" selected disabled hidden>Выберите</option>
+                                        <option name="oil_brand" value="{{ brand.oil_brand }}">{{ brand.oil_brand }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group mt-2" id="load_value_div">
+                                <label for="">Нагрузка</label>
+                                <input type="text" class="form-control-sm" name="load_value" value="{{ values.load_value }}">
+                            </div>
+                            <div class="form-group mt-2">
+                                <label class="me-2" for="">Место отбора</label>
+                                <select class="form-control-sm ms-5" name="testing_part" id="testing-part-box">
+                                    <option value="null" selected disabled hidden>Выберите</option>
+<!--                                    {% for testing_part in testing_parts %}-->
+<!--                                        <option name="testing_part" value="{{ testing_part.testing_part }}">{{ testing_part.testing_part }}</option>-->
+<!--                                    {% endfor %}-->
+                                </select>
+                             </div>
+                            <div class="form-group mt-2">
+                                <label class="me-2" for="">Причина проведения испытаний</label>
+                                <select class="form-control-sm ms-5" name="probe_issue">
+                                    {% for probe_issue in probe_issues %}
+                                        <option value="null" selected disabled hidden>Выберите</option>
+                                        <option name="probe_issue" value="{{ probe_issue.id }}">{{ probe_issue }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm d-inline-flex p-2">
+                            <div class="card mt-5" style="width: 18rem;">
+                                <div class="card-body">
+                                  <h5 class="card-title">Информация по заказчику</h5>
+                                  <ul class="list-group" name="equipment_name" >
+                                      <h6 class="mt-3">Диспетчерское наименование</h6>
+                                      <div id="equip-name-box"></div>
+                                      <h6 class="mt-2">Тип оборудования</h6>
+                                      <div id="equip-type-box"></div>
+                                      <h6 class="mt-2">Подстанция</h6>
+                                      <div id="equip-substation-box"></div>
+
+                                  </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="submit" value="Внести" class="btn btn-primary btn-primary-sm mt-5">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

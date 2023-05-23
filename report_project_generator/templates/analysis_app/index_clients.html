@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container mt-4">
+    {% include 'partials/_messages.html' %}
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Клиенты и оборудование</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Внесенные клиенты</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'add_client_info' %}" class="btn btn-primary btn-sm float-end">Добавить клиента</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th>Клиент</th>
+                <th>Вид оборудования</th>
+                <th>Заводской номер</th>
+                <th>Диспетчерское наименование</th>
+            </tr>
+        </thead>
+        <tbody>
+           {% for client in page_object %}
+               <tr>
+                   <td>{{ client.client_name }}</td>
+                   <td>{{ client.equipment_type_full }}</td>
+                   <td>{{ client.equipment_serial_number }}</td>
+                   <td>{{ client.equipment_name }}</td>
+               </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    <div class="">
+        Страница {{ page_object.number }} из {{ page_object.paginator.num_pages }}
+    </div>
+    <ul class="pagination text-start float-end">
+        {% if page_object.has_previous %}
+            <li {% if page_object.number == 1 %} class="page-item active" {% endif %}>
+                <a class="page-link" href="?page=1">&laquo; 1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.previous_page_number }}">Предыдущая</a>
+            </li>
+        {% endif %}
+        {% if page_object.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.next_page_number }}">Следующая</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.paginator.num_pages }}">{{ page_object.paginator.num_pages }} &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+
+
+
+
+
+{% endblock %}

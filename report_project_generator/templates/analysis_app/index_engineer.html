@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container mt-4">
+    {% include 'partials/_messages.html' %}
+    <div class="row">
+        <div class="col-md-10">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Отборы</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Проведенные отборы</li>
+              </ol>
+            </nav>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'add_oil_extraction' %}" class="btn btn-primary btn-sm float-end">Добавить отбор</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <table class="table table-stripped table-hover">
+        <thead>
+            <tr>
+                <th>Дата отбора</th>
+                <th>Заказчик</th>
+                <th>Заводской номер</th>
+                <th>Диспетчерское наименование</th>
+                <th>Номер шприца</th>
+                <th>Работник</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+           {% for probe_detail in page_object %}
+               <tr>
+                   <td>{{ probe_detail.probe_date }}</td>
+                   <td>{{ probe_detail.tested_client.client_name }}</td>
+                   <td>{{ probe_detail.tested_client.equipment_serial_number }}</td>
+                   <td>{{ probe_detail.tested_client.equipment_name }}</td>
+                   <td>{{ probe_detail.syringe_num }}</td>
+                   <td>{{ probe_detail.tester_name }}</td>
+                   <td><a href="{% url 'add_analysis' probe_detail.id %}" class="btn btn-info btn-sm">Внести анализ</a></td>
+           {% endfor %}
+        </tbody>
+    </table>
+    <div class="">
+        Страница {{ page_object.number }} из {{ page_object.paginator.num_pages }}
+    </div>
+    <ul class="pagination text-start float-end">
+        {% if page_object.has_previous %}
+            <li {% if page_object.number == 1 %} class="page-item active" {% endif %}>
+                <a class="page-link" href="?page=1">&laquo; 1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.previous_page_number }}">Предыдущая</a>
+            </li>
+        {% endif %}
+        {% if page_object.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.next_page_number }}">Следующая</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_object.paginator.num_pages }}">{{ page_object.paginator.num_pages }} &raquo;</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+
+
+
+
+<!--{% include 'partials/_messages.html' %}-->
+
+
+{% endblock %}
