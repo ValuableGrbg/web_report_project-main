@@ -305,7 +305,7 @@
 					{% endif %}
 					{%if analysis.BV_CV_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'BV' in mismatches or 'CV' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Пробивное напряжение, кВ, не менее/коэф. вариации, %, не более </td>
 
@@ -322,7 +322,7 @@
 					{% endif %}
 					{%if analysis.acid_number_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'acid_number' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Кислотное число, мг КОН/г, не более</td>
 
@@ -339,7 +339,7 @@
 					{% endif %}
 					{%if analysis.flash_rate_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'flash_rate' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Температура вспышки в закрытом тигле, не ниже °С</td>
 
@@ -356,7 +356,7 @@
 					{% endif %}
 					{%if analysis.moisture_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'moisture' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Влагосодержание, г/т, не более</td>
 
@@ -373,7 +373,7 @@
 					{% endif %}
 					{%if analysis.KPC_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'KPC' in mismatches}}" >
 						<td>{{a}}</td>
 						<td>Содержание мех. примесей (класс пром. чистоты), не более</td>
 
@@ -390,7 +390,7 @@
 					{% endif %}
 					{%if analysis.tan_d_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'tan_d' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Тангенс угла диэлектрических потерь при 90°С, %, не более</td>
 
@@ -407,7 +407,7 @@
 					{% endif %}
 					{%if analysis.ph_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'ph' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Содержание водорастворимых кислот и щелочей, рН водной вытяжки, не менее</td>
 
@@ -424,7 +424,7 @@
 					{% endif %}
 					{%if analysis.ionol_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'ionol' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Содержание антиокислительной присадки, % массы, не менее</td>
 
@@ -441,9 +441,9 @@
 					{% endif %}
 					{%if analysis.gas_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'gas' in mismatches}}">
 						<td>{{a}}</td>
-						<td>цвет</td>
+						<td>газосодержание</td>
 
 						{%if limits.gas_limit_value_ons != None%}
 						<td>{{limits.gas_limit_value_ons}}</td>
@@ -458,7 +458,7 @@
 					{% endif %}
 					{%if analysis.furan_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'furan' in mismatches}}">
 						<td>{{a}}</td>
 						<td>Содержание фурановых производных, % массы, не более </td>
 
@@ -475,9 +475,9 @@
 					{% endif %}
 					{%if analysis.sludge_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'sludge' in mismatches}}">
 						<td>{{a}}</td>
-						<td>цвет</td>
+						<td>шлам</td>
 
 						{%if limits.sludge_limit_value_ons != None%}
 						<td>{{limits.sludge_limit_value_ons}}</td>
@@ -492,9 +492,9 @@
 					{% endif %}
 					{%if analysis.solidification_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'solidification' in mismatches}}">
 						<td>{{a}}</td>
-						<td>цвет</td>
+						<td>затвердение</td>
 
 						{%if limits.solidification_limit_value_ons != None%}
 						<td>{{limits.solidification_limit_value_ons}}</td>
@@ -509,16 +509,16 @@
 					{% endif %}
 					{%if analysis.oxidation_stability_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'oxidation_stability' in mismatches}}">
 						<td>{{a}}</td>
 						<td>цвет</td>
 
-						{%if limits.oxidation_limit_value_ons != None%}
-						<td>{{limits.oxidation_limit_value_ons}}</td>
+						{%if limits.oxidation_stability_limit_value_ons != None%}
+						<td>{{limits.oxidation_stability_limit_value_ons}}</td>
 						{% else %} <td>-</td> {%endif%}
 
-						{%if limits.oxidation_limit_value_pd != None%}
-						<td>{{limits.oxidation_limit_value_pd}}</td>
+						{%if limits.oxidation_stability_limit_value_pd != None%}
+						<td>{{limits.oxidation_stability_limit_value_pd}}</td>
 						{% else %} <td>-</td> {%endif%}
 
 						<td>{{analysis.oxidation_stability_value}}</td>
@@ -526,7 +526,7 @@
 					{% endif %}
 					{%if analysis.sulfur_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'sulfur' in mismatches}}">
 						<td>{{a}}</td>
 						<td>цвет</td>
 
@@ -543,7 +543,7 @@
 					{% endif %}
 					{%if analysis.corrosive_sulfur_value != None%}
 					{% set a = a+1%}
-					<tr>
+					<tr class="{{'marked' if 'corrosive_sulfur' in mismatches}}">
 						<td>{{a}}</td>
 						<td>содержание коррозийной серы</td>
 

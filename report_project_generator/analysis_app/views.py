@@ -989,9 +989,7 @@ def get_mismatches_ph(values, normatives):
     limit_pattern_2 = "ons"
 
     values_df = pd.DataFrame(values).filter(like='value').dropna(axis=1)
-    print(values_df)
     normatives_df = pd.DataFrame(normatives).filter(like=f'value_{limit_pattern}')
-    print(normatives_df)
     normatives_df_ons = pd.DataFrame(normatives).filter(like=f'value_{limit_pattern_2}')
 
     for i in values_df.columns.unique():
