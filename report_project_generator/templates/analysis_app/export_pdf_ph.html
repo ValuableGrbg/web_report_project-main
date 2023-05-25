@@ -260,7 +260,7 @@
 						<td rowspan="2" class="">Результат испытания</td>
 					</tr>
 					<tr>
-						{% if probe_details_info.probe_issue == "Плановый" %}
+						{% if probe_details_info.probe_issue | replace(" ", "") == "Плановый" %}
 						<td class="">ограничивающее область нормального состояния </td>
 						<td class="">предельно допустимое</td>
 						{% else %}
