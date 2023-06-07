@@ -5,7 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 from django.templatetags.static import static
 
 import os
-from report_project_generator.settings import STATIC_ROOT
+from report_project_generator.settings import STATIC_ROOT, BASE_DIR
 
 from django.shortcuts import render, redirect
 from django.views import View
@@ -1085,6 +1085,14 @@ def export_pdf_ph(request, id):
     html = HTML(string=rendered_string)
     result = html.write_pdf(stylesheets=[css])
     response.write(result)
+
+    pdfs_dir = os.path.join(BASE_DIR, 'pdfs')
+    os.makedirs(pdfs_dir, exist_ok=True)
+    date = str(datetime.datetime.now())
+    date = date.replace(":","_")
+    filename = os.path.join(pdfs_dir, f'Analysis {date}.pdf')
+    with open(filename, 'wb') as file:
+        file.write(result)
 
     return response
 
