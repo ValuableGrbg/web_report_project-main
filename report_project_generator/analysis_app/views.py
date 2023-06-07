@@ -1086,11 +1086,21 @@ def export_pdf_ph(request, id):
     result = html.write_pdf(stylesheets=[css])
     response.write(result)
 
+    cur_year = datetime.datetime.now().year
+    client = str(analysis.client.client_name)
+    client = client.replace(" ", "")
+    client = client.replace('"', '_')
+
     pdfs_dir = os.path.join(BASE_DIR, 'pdfs')
     os.makedirs(pdfs_dir, exist_ok=True)
+    year_dir = os.path.join(pdfs_dir, f'{cur_year}')
+    os.makedirs(year_dir, exist_ok=True)
+    client_dir = os.path.join(year_dir, f'{client}')
+    os.makedirs(client_dir, exist_ok=True)
+
     date = str(datetime.datetime.now())
     date = date.replace(":","_")
-    filename = os.path.join(pdfs_dir, f'Analysis {date}.pdf')
+    filename = os.path.join(client_dir, f'Analysis {date}.pdf')
     with open(filename, 'wb') as file:
         file.write(result)
 
