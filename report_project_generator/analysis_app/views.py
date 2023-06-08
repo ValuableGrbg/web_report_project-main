@@ -1020,8 +1020,9 @@ def get_mismatches_ph(values, normatives):
 
     return mismatches
 
-def get_image_file_as_base64_data():
-    path = os.path.normpath(os.path.join(STATIC_ROOT, r'img/logo.png'))
+def get_image_file_as_base64_data(filename):
+    # path = os.path.normpath(os.path.join(STATIC_ROOT, r'img/logo.png'))
+    path = os.path.normpath(os.path.join(STATIC_ROOT, rf'img/{filename}'))
     with open(path, 'rb') as image_file:
         return base64.b64encode(image_file.read()).decode()
 
@@ -1072,11 +1073,13 @@ def export_pdf_ph(request, id):
 
     template = env.get_template('export_pdf_ph.html')
 
-    logo = get_image_file_as_base64_data()
+    logo = get_image_file_as_base64_data("logo.png")
+    signature = get_image_file_as_base64_data("sign.png")
 
     rendered_string = template.render(
         analysis=analysis,
         logo=logo,
+        signature=signature,
         limits=limit_values,
         probe_details_info=probe_details_info,
         mismatches=mismatches,
