@@ -1075,11 +1075,13 @@ def export_pdf_ph(request, id):
 
     logo = get_image_file_as_base64_data("logo.png")
     signature = get_image_file_as_base64_data("sign.png")
+    stamp = get_image_file_as_base64_data("stamp.png")
 
     rendered_string = template.render(
         analysis=analysis,
         logo=logo,
         signature=signature,
+        stamp=stamp,
         limits=limit_values,
         probe_details_info=probe_details_info,
         mismatches=mismatches,
