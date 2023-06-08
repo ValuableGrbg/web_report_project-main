@@ -253,3 +253,7 @@ footer p {
   top: -55px;
   left: 85px;
 }
+
+.empty_height{
+    height: 50px;
+}

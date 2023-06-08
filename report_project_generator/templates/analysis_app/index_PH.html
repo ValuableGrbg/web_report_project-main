@@ -38,7 +38,8 @@
                    <td>{{ analysis_info.employee }}</td>
                    <td>{{ analysis_info.description }}</td>
                    <td><a href="{% url 'analysis_edit_PH' analysis_info.id %}" class="btn btn-secondary btn-sm">Изменить</a></td>
-                   <td><a href="{% url 'export_pdf_ph' analysis_info.id %}" class="btn btn-info btn-sm">Создать PDF</a></td>
+                   <td><a href="{% url 'export_pdf_ph' id=analysis_info.id key=0 %}" class="btn btn-info btn-sm">Создать PDF</a></td>
+                   <td><a href="{% url 'export_signed_pdf_ph' id=analysis_info.id key=1 %}" class="btn btn-info btn-sm">Подписанный PDF</a></td>
                </tr>
            {% endfor %}
         </tbody>

@@ -589,14 +589,15 @@
 					<tr>
 						<td class="">Самарцева И.А.</td>
 						<td class="">Генеральный директор</td>
+						{%if key%}
 						<td class="">
 							<div class="parent">
   								<img class="signature" src="data:;base64,{{signature}}" />
 								<img class="stamp" src="data:;base64,{{stamp}}" />
 							</div>
-							<!--<img class="signature" src="data:;base64,{{signature}}"
-										 alt="sign"/>-->
 						</td>
+						{% else %}<td class="empty_height"></td>
+						{% endif %}
 					</tr>
 				</tbody>
 			</table>

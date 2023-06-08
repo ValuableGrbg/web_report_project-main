@@ -1026,7 +1026,8 @@ def get_image_file_as_base64_data(filename):
     with open(path, 'rb') as image_file:
         return base64.b64encode(image_file.read()).decode()
 
-def export_pdf_ph(request, id):
+
+def export_pdf_ph(request, id, key):
     analysis = oil_PC.objects.get(pk=id)
     probe_details_info = ProbeDetailsInfo.objects.get(id=analysis.probe_id.id)
     company_info = CompanyDetails.objects.get(company_name='ООО "Сибэнергодиагностика"')
@@ -1085,7 +1086,8 @@ def export_pdf_ph(request, id):
         limits=limit_values,
         probe_details_info=probe_details_info,
         mismatches=mismatches,
-        company_info=company_info
+        company_info=company_info,
+        key=key,
     )
     html = HTML(string=rendered_string)
     result = html.write_pdf(stylesheets=[css])

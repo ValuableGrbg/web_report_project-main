@@ -25,5 +25,6 @@ urlpatterns = [
     path('index_PH', views.index_PH, name='index_PH'),
     path('analysis_edit_PH/<int:id>', views.analysis_edit_PH, name='analysis_edit_PH'),
     path('analysis_delete_PH/<int:id>', views.analysis_delete_PH, name='analysis_delete_PH'),
-    path('export_pdf_ph/<int:id>', views.export_pdf_ph, name='export_pdf_ph'),
+    path('export_pdf_ph/<int:id>/<int:key>', views.export_pdf_ph, name='export_pdf_ph'),
+    path('export_pdf_ph/<int:id>/<int:key>', views.export_pdf_ph, name='export_signed_pdf_ph'),
 ]
