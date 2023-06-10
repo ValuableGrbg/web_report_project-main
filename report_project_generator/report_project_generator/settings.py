@@ -32,7 +32,8 @@ SECRET_KEY = 'django-insecure-qx4fiejsko%vy(*1n*@rco&vf(@1nlj)vcvsmramrui!%-s0q2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['d-barkov-chemical-web-app.herokuapp.com', '127.0.0.1:8000']
+# ALLOWED_HOSTS = ['d-barkov-chemical-web-app.herokuapp.com', '127.0.0.1:8000']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
