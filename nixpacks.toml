@@ -1,2 +1,2 @@
 [phases.setup]
-aptPkgs = ["...", "libpango-1.0-0", "ia32-libs-gtk", "ia32-lib"]
+aptPkgs = ["...", "libpango-1.0-0", "libgtk2.0-0:i386", "ia32-libs"]
