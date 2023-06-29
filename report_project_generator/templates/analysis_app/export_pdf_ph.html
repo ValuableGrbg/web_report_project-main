@@ -1,4 +1,3 @@
-
 <html>
 <head>
 	<title>Oil Report</title>
@@ -7,17 +6,17 @@
 </head>
 <body>
 	<header class="header_wrapper">
-		<div class="logo_container">
-			<img class="logo" src="data:;base64,{{logo}}" alt="{{ logo }}" />
-		</div>
-		<div class="comp_descr">
-			ООО "Сибэнергодиагностика"
-			<br/>{{ company_info.address }}
-			<br/>ИНН: {{ company_info.inn }} КПП: {{ company_info.kpp }}
-			<br/>🗏 {{ company_info.site_url }}
-			<br/>✉ {{ company_info.email }} ☎ {{ company_info.telephone }}
-		</div>
-	</header>
+            <div class="logo_container">
+                <img class="logo" src="data:;base64,{{logo}}" alt="{{ logo }}" />
+            </div>
+            <div class="comp_descr">
+                ООО "Сибэнергодиагностика"
+                <br/>{{ company_info.address }}
+                <br/>ИНН: {{ company_info.inn }} КПП: {{ company_info.kpp }}
+                <br/>🗏 {{ company_info.site_url }}
+                <br/>✉ {{ company_info.email }} ☎ {{ company_info.telephone }}
+            </div>
+    </header>
 	<section>
 		<div class="protocol_name">
 			<h2 class="title">Протокол № {{ analysis.protocol_code }}</h2>
@@ -232,20 +231,6 @@
 		</div>
 	</section>
 	<section class="wrapper">
-		<p style="page-break-before: always"></p>
-
-		<header class="header_wrapper">
-		<div class="logo_container">
-			<img class="logo" src="data:;base64,{{logo}}" alt="{{ logo }}" />
-		</div>
-		<div class="comp_descr">
-			ООО "Сибэнергодиагностика"
-			<br/>{{ company_info.address }}
-			<br/>ИНН: {{ company_info.inn }} КПП: {{ company_info.kpp }}
-			<br/>🗏 {{ company_info.site_url }}
-			<br/>✉ {{ company_info.email }} ☎ {{ company_info.telephone }}
-		</div>
-		</header>
 
 		<div class="conditions">
 			<h2>

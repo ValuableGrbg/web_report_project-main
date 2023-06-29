@@ -25,7 +25,7 @@ from django.utils.timezone import now
 from django.apps import apps
 import json
 
-from weasyprint import HTML
+from weasyprint import HTML, CSS
 from django.template.loader import render_to_string
 import tempfile
 import pdb
@@ -1027,6 +1027,13 @@ def get_image_file_as_base64_data(filename):
         return base64.b64encode(image_file.read()).decode()
 
 
+def get_page_body(boxes):
+    for box in boxes:
+        if box.element_tag == 'body':
+            return box
+
+        return get_page_body(box.all_children())
+
 def export_pdf_ph(request, id, key):
     analysis = oil_PC.objects.get(pk=id)
     probe_details_info = ProbeDetailsInfo.objects.get(id=analysis.probe_id.id)
@@ -1091,6 +1098,7 @@ def export_pdf_ph(request, id, key):
     )
     html = HTML(string=rendered_string)
     result = html.write_pdf(stylesheets=[css])
+
     response.write(result)
 
     cur_year = datetime.datetime.now().year
